@@ -23,13 +23,11 @@ public class CompanyClientServiceImpl implements ICompanyClientService {
 
 	@Override
 	public CompanyClient createCompany(CompanyClientDto companyClientDto) {
-		// TODO Auto-generated method stub
 		return companyClientRepository.save(companyClientConverter.dtoToEntity(companyClientDto));
 	}
 
 	@Override
 	public CompanyClient getCompanyById(Long companyClientId) {
-		// TODO Auto-generated method stub
 		return companyClientRepository.findById(companyClientId)
 				.orElseThrow(() -> new ApplicationException("This Company with Id" + companyClientId + "not exist"));
 	}

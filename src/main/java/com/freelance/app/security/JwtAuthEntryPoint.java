@@ -26,8 +26,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
-		// TODO Auto-generated method stub
+			AuthenticationException authException) throws IOException, ServletException {  
 		logger.error("Unauthorized error. Message - {}",authException.getMessage());
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error -> Unauthorized");
 	}

@@ -2,7 +2,9 @@ package com.freelance.app.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,18 +43,15 @@ public class UserPrinciple implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public static UserPrinciple build(User user) {
-		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		user.getRoles().forEach(role -> {
-			authorities.add(new SimpleGrantedAuthority(role.getRoleDescription()));
-		});
+		List<GrantedAuthority> authorities = user.getRoles().stream()
+				.map(role -> new SimpleGrantedAuthority(role.getRoleDescription())).collect(Collectors.toList());
 
 		return new UserPrinciple(user.getUserId(), user.getEmail(), user.getPassword(), authorities);
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return authorities;
 	}
 
 	@Override
@@ -101,7 +100,6 @@ public class UserPrinciple implements UserDetails {
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
-
 		UserPrinciple user = (UserPrinciple) o;
 		return Objects.equals(id, user.id);
 	}

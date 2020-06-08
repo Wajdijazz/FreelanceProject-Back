@@ -1,5 +1,6 @@
 package com.freelance.app.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +29,11 @@ public class JwtProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
-	private String jwtSecret;
 
-	private int jwtExpiration;
+	public static final  String jwtSecret="Wajdi@gmail.com";
+	public static final  long jwtExpiration=10*24*3600;
+	
+	
 
 	public String generateJwtToken(Authentication authentication) {
 
@@ -56,11 +59,11 @@ public class JwtProvider {
 		} catch (IllegalArgumentException e) {
 			logger.error("JWT claims string is empty -> Message: {}", e);
 		}
-
 		return false;
 	}
 
 	public String getUserNameFromJwtToken(String token) {
+		System.out.println(jwtSecret);
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
 

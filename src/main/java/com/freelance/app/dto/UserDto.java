@@ -1,6 +1,9 @@
 package com.freelance.app.dto;
 
 import lombok.Builder;
+
+import java.util.Set;
+
 import lombok.*;
 
 @Data
@@ -15,7 +18,7 @@ import lombok.*;
  * @author WAJDI
  *
  */
-public class UserDto  {
+public class UserDto {
 
 	private Long userId;
 
@@ -24,6 +27,8 @@ public class UserDto  {
 	private String password;
 
 	private String confirmedPassword;
+
+	private Set<String> role;
 
 	private boolean isActive;
 

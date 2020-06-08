@@ -1,5 +1,7 @@
 package com.freelance.app.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,18 +13,18 @@ import com.freelance.app.services.ICompanyClientService;
 import com.freelance.app.util.Routes;
 
 import lombok.AllArgsConstructor;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping(Routes.COMPANYCLIENT)
+@CrossOrigin(origins = "*")
 public class CompanyClientController {
 
 	private ICompanyClientService companyClientService;
 	private CompanyClientConverter companyClientConverter;
 
-
 	@PostMapping("/")
 	public CompanyClientDto creatCompanyClient(@RequestBody CompanyClientDto companyClientDto) {
-		System.out.println(companyClientDto);
 		return companyClientConverter.entityToDto(companyClientService.createCompany(companyClientDto));
 	}
 

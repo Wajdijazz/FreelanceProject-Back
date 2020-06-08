@@ -20,7 +20,6 @@ public class PersonServiceImpl implements IPersonService{
 
 	@Override
 	public Person getPersonById(Long personId) {
-		// TODO Auto-generated method stub
 		return personRepository.findById(personId)
 				.orElseThrow(() -> new ApplicationException("This person with Id" + personId + "not exist"));
 	}
