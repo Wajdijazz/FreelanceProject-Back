@@ -28,12 +28,11 @@ import org.slf4j.LoggerFactory;
 public class JwtProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+	@Value("${app.jwtSecret}")
+	private String jwtSecret;
 
-
-	public static final  String jwtSecret="Wajdi@gmail.com";
-	public static final  long jwtExpiration=10*24*3600;
-	
-	
+	@Value("${app.jwtExpiration}")
+	private int jwtExpiration;
 
 	public String generateJwtToken(Authentication authentication) {
 
@@ -42,6 +41,10 @@ public class JwtProvider {
 		return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+	}
+
+	public String getUserNameFromJwtToken(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
 
 	public boolean validateJwtToken(String authToken) {
@@ -60,11 +63,6 @@ public class JwtProvider {
 			logger.error("JWT claims string is empty -> Message: {}", e);
 		}
 		return false;
-	}
-
-	public String getUserNameFromJwtToken(String token) {
-		System.out.println(jwtSecret);
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
 
 }

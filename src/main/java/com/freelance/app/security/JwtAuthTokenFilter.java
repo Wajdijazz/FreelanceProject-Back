@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,15 +27,17 @@ import org.slf4j.LoggerFactory;
  * @author WAJDI
  *
  */
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
+	@Autowired
 	private JwtProvider tokenProvider;
-
+	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
 	private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
+
+
 
 	/**
 	 * get JWT token from header validate JWT parse username from validated JWT load
@@ -45,11 +48,9 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-
 		try {
 
 			String jwt = getJwt(request);
-
 			if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
 				String username = tokenProvider.getUserNameFromJwtToken(jwt);
 

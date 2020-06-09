@@ -1,5 +1,6 @@
 package com.freelance.app.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +16,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-	    prePostEnabled = true
-	)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    @Autowired
 	private UserDetailsServiceImpl userDetailsService;
-	private JwtAuthEntryPoint unauthorizedHandler;
+    @Autowired
+	private JwtAuthEntryPoint jwtAuthEntryPoint;
 
 	@Bean
 	public JwtAuthTokenFilter authenticationJwtTokenFilter() {
@@ -44,9 +43,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
-		.antMatchers("/**").permitAll()
+		.antMatchers("/user/login").permitAll()
+		.antMatchers("/user/register").hasAnyAuthority("SUPERADMIN","ADMIN","GESTIONARY")
+		.antMatchers("/companyClient/**").hasAuthority("SUPERADMIN")
 		.anyRequest()
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

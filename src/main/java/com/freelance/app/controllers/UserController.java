@@ -1,5 +1,7 @@
 package com.freelance.app.controllers;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RestController
 @RequestMapping(Routes.USER)
-@CrossOrigin(origins = "*")
+@CrossOrigin(value = "*")
 public class UserController {
 
 	private IUserService userService;
@@ -45,7 +47,7 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> authenticateUser(@RequestBody UserLoginDto userLoginDto) {
+	public ResponseEntity<?> authenticateUser(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(), userLoginDto.getPassword()));
@@ -54,11 +56,13 @@ public class UserController {
 
 		String jwt = jwtProvider.generateJwtToken(authentication);
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		return ResponseEntity.ok(new JwtResponse(jwt,"Bearer", userDetails.getUsername(), userDetails.getAuthorities()));
+		response.setHeader("Authorization", jwt);
+		return ResponseEntity
+				.ok(new JwtResponse(jwt, "Bearer", userDetails.getUsername(), userDetails.getAuthorities()));
 	}
-	  @GetMapping("/admin")
-	  public String adminAccess() {
-	    return ">>> superAdmin Contents";
-	  }
+
+	@GetMapping("/admin")
+	public String adminAccess() {
+		return ">>> superAdmin Contents";
+	}
 }
