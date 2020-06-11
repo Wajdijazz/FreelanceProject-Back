@@ -10,11 +10,9 @@ public class CompanyClientConverter implements GenericsConverter<CompanyClient, 
 
 	@Override
 	public CompanyClientDto entityToDto(CompanyClient companyClient) {
-		// TODO Auto-generated method stub
 		return CompanyClientDto.builder()
 				.companyId(companyClient.getCompanyId())
 				.companyName(companyClient.getCompanyName())
-				.companyPhone(companyClient.getCompanyPhone())
 				.companyLogo(companyClient.getCompanyLogo())
 				.companyWebSite(companyClient.getCompanyWebSite())
 				.firstNameContact(companyClient.getFirstNameContact())
@@ -26,11 +24,9 @@ public class CompanyClientConverter implements GenericsConverter<CompanyClient, 
 
 	@Override
 	public CompanyClient dtoToEntity(CompanyClientDto companyClientDto) {
-		// TODO Auto-generated method stub
 		return CompanyClient.builder()
 				.companyId(companyClientDto.getCompanyId())
 				.companyName(companyClientDto.getCompanyName())
-				.companyPhone(companyClientDto.getCompanyPhone())
 				.companyLogo(companyClientDto.getCompanyLogo())
 				.companyWebSite(companyClientDto.getCompanyWebSite())
 				.firstNameContact(companyClientDto.getFirstNameContact())

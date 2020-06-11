@@ -35,15 +35,13 @@ public class AppStartConfiguration implements CommandLineRunner {
 		userService.saveRole(new Role(null, "AUDIT"));
 
 		personRepository.save(new Person(null, "Mohamed Wajdi", "Jaziri", 545390739, LocalDate.now(), true));
-		companyClientRepository.save(new CompanyClient(null, "ASMA", 545330793, "www.demo.com", "Mohamed Wajdi",
+		companyClientRepository.save(new CompanyClient(null, "ASMA", "www.demo.com", "Mohamed Wajdi",
 				"Jaziri", "mohamedwajdijaziri@gmail.com", 54530739, null));
 
 		Set<String> rolesSuperAdmin = new HashSet<>();
 		rolesSuperAdmin.add("SUPERADMIN");
 		Set<String> rolesAdmin = new HashSet<>();
 		rolesAdmin.add("ADMIN");
-
-
 
 		userService.createUser(
 				new UserDto(null, "wajdijaziri@gmail.com", "wajdi12345", "wajdi12345", rolesSuperAdmin, true,1L,1L));

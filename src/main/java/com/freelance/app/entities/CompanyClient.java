@@ -25,10 +25,7 @@ public class CompanyClient {
 	
 	@Column(name = "company_name")
 	private String companyName;
-	
-	@Column(name = "company_phone")
-	private int companyPhone;
-	
+
 	@Column(name = "company_webSite")
 	private String companyWebSite;
 	
@@ -42,7 +39,7 @@ public class CompanyClient {
 	private String emailContact;
 	
 	@Column(name = "contact_phone")
-	private int phoneContact;
+	private float phoneContact;
 	
 	@Column(name = "company_logo", length = 1000)
 	private byte[] companyLogo;

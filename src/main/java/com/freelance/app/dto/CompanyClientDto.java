@@ -23,8 +23,6 @@ public class CompanyClientDto {
 
 	private String companyName;
 
-	private int companyPhone;
-
 	private String companyWebSite;
 
 	private String firstNameContact;
@@ -33,7 +31,7 @@ public class CompanyClientDto {
 
 	private String emailContact;
 
-	private int phoneContact;
+	private float phoneContact;
 
 	private byte[] companyLogo;
 
