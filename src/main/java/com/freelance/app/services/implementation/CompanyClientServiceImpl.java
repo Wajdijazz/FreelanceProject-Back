@@ -11,6 +11,7 @@ import com.freelance.app.dto.CompanyClientDto;
 import com.freelance.app.entities.CompanyClient;
 import com.freelance.app.exceptions.ApplicationException;
 import com.freelance.app.repositories.CompanyClientRepository;
+import com.freelance.app.repositories.UserRepository;
 import com.freelance.app.services.ICompanyClientService;
 
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class CompanyClientServiceImpl implements ICompanyClientService {
 
 	private CompanyClientRepository companyClientRepository;
 	private CompanyClientConverter companyClientConverter;
+	private UserRepository userRepository;
 
 	@Override
 	public CompanyClientDto createCompany(CompanyClientDto companyClientDto) {
@@ -57,6 +59,7 @@ public class CompanyClientServiceImpl implements ICompanyClientService {
 
 	@Override
 	public void deleteCompanyById(Long companyClientId) {
+		userRepository.deleteByCompanyClient_CompanyId(companyClientId);
 		companyClientRepository.delete(getCompanyById(companyClientId));
 	}
 

@@ -1,7 +1,5 @@
 package com.freelance.app.dto;
 
-import lombok.Builder;
-
 import java.util.Set;
 
 import lombok.*;
@@ -12,6 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Getter
+@Setter
 /**
  * All Dto class to get Data from Front
  * 

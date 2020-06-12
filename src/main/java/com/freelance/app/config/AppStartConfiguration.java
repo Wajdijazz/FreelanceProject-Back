@@ -35,6 +35,8 @@ public class AppStartConfiguration implements CommandLineRunner {
 		userService.saveRole(new Role(null, "AUDIT"));
 
 		personRepository.save(new Person(null, "Mohamed Wajdi", "Jaziri", 545390739, LocalDate.now(), true));
+		personRepository.save(new Person(null, "Admin", "Admin", 545390739, LocalDate.now(), true));
+
 		companyClientRepository.save(new CompanyClient(null, "ASMA", "www.demo.com", "Mohamed Wajdi",
 				"Jaziri", "mohamedwajdijaziri@gmail.com", 54530739, null));
 

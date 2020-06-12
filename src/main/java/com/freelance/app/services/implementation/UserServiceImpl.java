@@ -3,8 +3,13 @@ package com.freelance.app.services.implementation;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +37,14 @@ public class UserServiceImpl implements IUserService {
 	private IPersonService personService;
 	private PasswordEncoder passwordEncoder;
 
+	@Qualifier("getJavaMailSendeGmail")
+	public JavaMailSender emailSendergmail;
+
+	@Qualifier("getJavaMailSenderYahoo")
+	public JavaMailSender emailSenderYahoo;
+
 	@Override
-	public User createUser(UserDto userDto) {
+	public User createUser(UserDto userDto) throws MessagingException {
 		if (userRepository.findByEmail(userDto.getEmail()) != null)
 			throw new ResourceNotFoundException("User already exists");
 		if (!userDto.getPassword().equals(userDto.getConfirmedPassword()))
@@ -43,10 +54,41 @@ public class UserServiceImpl implements IUserService {
 				.person(personService.getPersonById(userDto.getPersonId()))
 				.companyClient(companyClientService.getCompanyById(userDto.getCompanyClientId())).isActive(true)
 				.build();
-
 		userToSave.setRoles(affectRoleToUser(userDto));
+		sendMail("", userDto.getEmail(), userDto.getPassword());
 		return userRepository.save(userToSave);
+	}
 
+	@Override
+	public User getUserById(Long userId) {
+
+		return userRepository.findById(userId)
+				.orElseThrow(() -> new ApplicationException("This user with Id" + userId + "not exist"));
+	}
+
+	@Override
+	public void sendMail(String messageToSend, String email, String password) throws MessagingException {
+
+		MimeMessage messageGmail = emailSendergmail.createMimeMessage();
+		MimeMessage messageYahoo = emailSenderYahoo.createMimeMessage();
+
+		boolean multipart = true;
+		MimeMessageHelper helperGmail = new MimeMessageHelper(messageGmail, multipart, "utf-8");
+		MimeMessageHelper helperYahoo = new MimeMessageHelper(messageYahoo, multipart, "utf-8");
+
+		String htmlMsg = "<h3>Welcome to be a part of our clients</h3>" + "<p>To to authenticate :  </p>"
+				+ "<p>\"your login : </p>" + email + "<p>\"your password : </p>" + password
+				+ "<p> To change your password click here : " + "http://localhost:4200/update/" + email;
+
+		messageGmail.setContent(htmlMsg, "text/html");
+		helperGmail.setTo(email);
+		helperGmail.setSubject("Confirm registration");
+		this.emailSendergmail.send(messageGmail);
+
+		messageYahoo.setContent(htmlMsg, "text/html");
+		helperYahoo.setTo(email);
+		helperYahoo.setSubject("Confirm registration");
+		this.emailSenderYahoo.send(messageYahoo);
 	}
 
 	@Override
@@ -93,6 +135,15 @@ public class UserServiceImpl implements IUserService {
 
 		});
 		return roles;
+	}
+
+	@Override
+	public User updatePasswordUser(UserDto userDto) {
+		User userToUpdate = userRepository.findByEmail(userDto.getEmail());
+		if (!userDto.getPassword().equals(userDto.getConfirmedPassword()))
+			throw new ResourceNotFoundException("Please confirm your password");
+		userToUpdate.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		return userToUpdate;
 	}
 
 }
