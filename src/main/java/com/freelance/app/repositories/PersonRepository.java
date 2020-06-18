@@ -8,5 +8,7 @@ import com.freelance.app.entities.Person;
 
 @RepositoryRestResource
 public interface PersonRepository extends JpaRepository<Person, Long> {
+	
+	void deleteByCompanyClient_CompanyId(Long companyId);
 
 }

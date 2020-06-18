@@ -4,7 +4,10 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import com.freelance.app.dto.UserDetailDto;
 import com.freelance.app.dto.UserDto;
+import com.freelance.app.entities.CompanyClient;
+import com.freelance.app.entities.Person;
 import com.freelance.app.entities.Role;
 import com.freelance.app.entities.User;
 
@@ -21,5 +24,8 @@ public interface IUserService {
 	void sendMail(String messageToSend, String email, String password) throws MessagingException;
 
 	User updatePasswordUser(UserDto userDto);
+	
+	UserDetailDto getUserInfoByEmail(String email);
+
 
 }

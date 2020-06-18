@@ -8,5 +8,6 @@ import com.freelance.app.entities.CompanyClient;
 @RepositoryRestResource
 public interface CompanyClientRepository extends JpaRepository<CompanyClient, Long> {
 	
+	CompanyClient findByEmailContact(String email);
 
 }

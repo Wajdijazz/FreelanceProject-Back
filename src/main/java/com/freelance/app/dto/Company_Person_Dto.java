@@ -1,7 +1,7 @@
 package com.freelance.app.dto;
 
+import java.time.LocalDate;
 
-import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,22 +15,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class CompanyClientDto {
-
+public class Company_Person_Dto {
+	
 	private Long companyId;
-
-	private String companyName;
-
-	private String companyWebSite;
-
-	private String firstNameContact;
-
-	private String lastNameContact;
-
+	private Long personId;
 	private String emailContact;
-
-	private float phoneContact;
-
-	private MultipartFile companyLogo;
 
 }

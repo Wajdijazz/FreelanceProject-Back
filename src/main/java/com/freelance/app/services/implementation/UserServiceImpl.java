@@ -1,5 +1,6 @@
 package com.freelance.app.services.implementation;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.freelance.app.dto.UserDetailDto;
 import com.freelance.app.dto.UserDto;
 import com.freelance.app.entities.Role;
 import com.freelance.app.entities.User;
@@ -24,6 +26,8 @@ import com.freelance.app.services.ICompanyClientService;
 import com.freelance.app.services.IPersonService;
 import com.freelance.app.services.IUserService;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -33,15 +37,21 @@ public class UserServiceImpl implements IUserService {
 
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
-	private ICompanyClientService companyClientService;
-	private IPersonService personService;
 	private PasswordEncoder passwordEncoder;
+	private IPersonService personService;
+	private ICompanyClientService companyClientService;
 
 	@Qualifier("getJavaMailSendeGmail")
 	public JavaMailSender emailSendergmail;
 
 	@Qualifier("getJavaMailSenderYahoo")
 	public JavaMailSender emailSenderYahoo;
+
+	private static final String jwtSecret = "JWTSecretKey";
+
+	private static final int jwtExpiration = 86400;
+
+	// create Admin methode to save company and user and person in same time
 
 	@Override
 	public User createUser(UserDto userDto) throws MessagingException {
@@ -61,14 +71,15 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public User getUserById(Long userId) {
-
 		return userRepository.findById(userId)
 				.orElseThrow(() -> new ApplicationException("This user with Id" + userId + "not exist"));
 	}
 
 	@Override
 	public void sendMail(String messageToSend, String email, String password) throws MessagingException {
-
+		String tokenGenerated = Jwts.builder().setSubject(email).setIssuedAt(new Date())
+				.setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
+				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 		MimeMessage messageGmail = emailSendergmail.createMimeMessage();
 		MimeMessage messageYahoo = emailSenderYahoo.createMimeMessage();
 
@@ -77,8 +88,8 @@ public class UserServiceImpl implements IUserService {
 		MimeMessageHelper helperYahoo = new MimeMessageHelper(messageYahoo, multipart, "utf-8");
 
 		String htmlMsg = "<h3>Welcome to be a part of our clients</h3>" + "<p>To to authenticate :  </p>"
-				+ "<p>\"your login : </p>" + email + "<p>\"your password : </p>" + password
-				+ "<p> To change your password click here : " + "http://localhost:4200/update/" + email;
+				+ "<p>your login : </p>" + email + "<p>your password : </p>" + password
+				+ "<p> To change your password click here : " + "http://localhost:4200/reset/" + tokenGenerated;
 
 		messageGmail.setContent(htmlMsg, "text/html");
 		helperGmail.setTo(email);
@@ -145,5 +156,16 @@ public class UserServiceImpl implements IUserService {
 		userToUpdate.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		return userToUpdate;
 	}
+
+	@Override
+	public UserDetailDto getUserInfoByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		return UserDetailDto.builder().userId(user.getUserId()).companyName(user.getCompanyClient().getCompanyName())
+				.userFirstName(user.getPerson().getFirstName()).userLastName(user.getPerson().getLastName())
+				.userPhone(user.getPerson().getPhoneNumber())
+				.companyWebSite(user.getCompanyClient().getCompanyWebSite())
+				.build();
+	}
+	
 
 }

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @Entity
 @Data
@@ -24,6 +25,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 /**
  * this class describe users
  * 
@@ -52,7 +54,7 @@ public class User {
 	@JoinColumn(name = "companyClient_id")
 	private CompanyClient companyClient;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany()
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "role_id") })
 

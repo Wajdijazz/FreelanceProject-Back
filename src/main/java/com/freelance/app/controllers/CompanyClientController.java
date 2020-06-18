@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.freelance.app.dto.CompanyClientDto;
+import com.freelance.app.dto.Company_Person_Dto;
 import com.freelance.app.security.ResponseMessage;
 import com.freelance.app.services.ICompanyClientService;
 import com.freelance.app.util.Routes;
@@ -30,9 +31,8 @@ public class CompanyClientController {
 	private ICompanyClientService companyClientService;
 
 	@PostMapping("/")
-	public ResponseEntity<?> creatCompanyClient(@RequestBody CompanyClientDto companyClientDto) {
-		companyClientService.createCompany(companyClientDto);
-		return new ResponseEntity<>(new ResponseMessage("Company created successfully!"), HttpStatus.OK);
+	public Company_Person_Dto creatCompanyClient(@RequestBody CompanyClientDto companyClientDto) {
+		return companyClientService.createCompany(companyClientDto);
 	}
 
 	@GetMapping("/")

@@ -13,7 +13,6 @@ import com.freelance.app.entities.Person;
 import com.freelance.app.entities.Role;
 import com.freelance.app.repositories.CompanyClientRepository;
 import com.freelance.app.repositories.PersonRepository;
-
 import com.freelance.app.services.IUserService;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +20,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Configuration
 public class AppStartConfiguration implements CommandLineRunner {
+	
 	private IUserService userService;
 	private PersonRepository personRepository;
 	private CompanyClientRepository companyClientRepository;
@@ -34,11 +34,12 @@ public class AppStartConfiguration implements CommandLineRunner {
 		userService.saveRole(new Role(null, "USER"));
 		userService.saveRole(new Role(null, "AUDIT"));
 
-		personRepository.save(new Person(null, "Mohamed Wajdi", "Jaziri", 545390739, LocalDate.now(), true));
-		personRepository.save(new Person(null, "Admin", "Admin", 545390739, LocalDate.now(), true));
+		CompanyClient company = companyClientRepository.save(new CompanyClient(null, "ASMA", "www.demo.com",
+				"Mohamed Wajdi", "Jaziri", "mohamedwajdijaziri@gmail.com", 54530739, null));
 
-		companyClientRepository.save(new CompanyClient(null, "ASMA", "www.demo.com", "Mohamed Wajdi",
-				"Jaziri", "mohamedwajdijaziri@gmail.com", 54530739, null));
+		personRepository.save(new Person(null, "Mohamed Wajdi", "Jaziri", 545390739, LocalDate.now(), true, company));
+		personRepository.save(new Person(null, "Admin", "Admin", 545390739, LocalDate.now(), true, company));
+		
 
 		Set<String> rolesSuperAdmin = new HashSet<>();
 		rolesSuperAdmin.add("SUPERADMIN");
@@ -46,9 +47,9 @@ public class AppStartConfiguration implements CommandLineRunner {
 		rolesAdmin.add("ADMIN");
 
 		userService.createUser(
-				new UserDto(null, "wajdijaziri@gmail.com", "wajdi12345", "wajdi12345", rolesSuperAdmin, true,1L,1L));
-		userService.createUser(
-				new UserDto(null, "admin@gmail.com", "wajdi12345", "wajdi12345", rolesAdmin, true,1L,1L));
-		
+				new UserDto(null, "wajdijaziri@gmail.com", "wajdi12345", "wajdi12345", rolesSuperAdmin, true, 1L, 1L));
+		userService
+				.createUser(new UserDto(null, "admin@gmail.com", "wajdi12345", "wajdi12345", rolesAdmin, true, 1L, 1L));
+
 	}
 }
