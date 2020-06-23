@@ -1,6 +1,5 @@
 package com.freelance.app.dto;
 
-import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

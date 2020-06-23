@@ -65,7 +65,7 @@ public class UserServiceImpl implements IUserService {
 				.companyClient(companyClientService.getCompanyById(userDto.getCompanyClientId())).isActive(true)
 				.build();
 		userToSave.setRoles(affectRoleToUser(userDto));
-		sendMail("", userDto.getEmail(), userDto.getPassword());
+	//	sendMail("", userDto.getEmail(), userDto.getPassword());
 		return userRepository.save(userToSave);
 	}
 
@@ -118,13 +118,6 @@ public class UserServiceImpl implements IUserService {
 						.orElseThrow(() -> new ApplicationException("Fail! -> Cause: User Role not find."));
 				roles.add(SuperAdminRole);
 				break;
-
-			case "ADMIN":
-				Role AdminRole = roleRepository.findByRoleDescription("ADMIN")
-						.orElseThrow(() -> new ApplicationException("Fail! -> Cause: User Role not find."));
-				roles.add(AdminRole);
-				break;
-
 			case "GESTIONARY":
 				Role GestionnaryRole = roleRepository.findByRoleDescription("GESTIONARY")
 						.orElseThrow(() -> new ApplicationException("Fail! -> Cause: User Role not find."));
@@ -164,6 +157,7 @@ public class UserServiceImpl implements IUserService {
 				.userFirstName(user.getPerson().getFirstName()).userLastName(user.getPerson().getLastName())
 				.userPhone(user.getPerson().getPhoneNumber())
 				.companyWebSite(user.getCompanyClient().getCompanyWebSite())
+				.companyId(user.getCompanyClient().getCompanyId())
 				.build();
 	}
 	

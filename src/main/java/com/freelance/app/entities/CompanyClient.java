@@ -2,8 +2,6 @@ package com.freelance.app.entities;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import lombok.*;
 
 @Entity
@@ -20,7 +18,6 @@ import lombok.*;
  * @author WAJDI
  *
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CompanyClient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +40,7 @@ public class CompanyClient {
 	private String emailContact;
 
 	@Column(name = "contact_phone")
-	private float phoneContact;
+	private double phoneContact;
 
 	@Column(name = "company_logo", length = 1000)
 	private byte[] companyLogo;

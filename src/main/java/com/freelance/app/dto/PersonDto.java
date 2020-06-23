@@ -24,12 +24,14 @@ public class PersonDto {
 
 	private String lastName;
 
-	private float phoneNumber;
+	private double phoneNumber;
 
 	private LocalDate creationDate;
 
 	private boolean isActive;
 	
 	private Long companyId;
+	
+	private Long departmentId;
 
 }

@@ -1,5 +1,6 @@
 package com.freelance.app.dto;
 
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,21 +15,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class UserDetailDto {
-	
-	private Long userId;
-	
-	private Long companyId;
-	
-	private String companyName;
+public class DepartmentDto {
 
-	private String userFirstName;
-	
-	private String userLastName;
-	
-	private String companyWebSite;
-	
-	private double userPhone;
-	
+	private Long departmentId;
+
+	private String departmentName;
+
+	private LocalDate creationDate;
+
+	private boolean isActive;
+
+	private Long companyClientId;
 
 }

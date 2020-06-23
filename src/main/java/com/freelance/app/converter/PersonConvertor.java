@@ -6,10 +6,15 @@ import org.springframework.stereotype.Component;
 
 import com.freelance.app.dto.PersonDto;
 import com.freelance.app.entities.Person;
+import com.freelance.app.services.ICompanyClientService;
+import com.freelance.app.services.IDepartmentService;
 
+import lombok.AllArgsConstructor;
+@AllArgsConstructor
 @Component
 public class PersonConvertor implements GenericsConverter<Person, PersonDto> {
-
+	private ICompanyClientService companClientService;
+	private IDepartmentService departmentService;
 	@Override
 	public PersonDto entityToDto(Person person) {
 		return PersonDto.builder()
@@ -29,6 +34,8 @@ public class PersonConvertor implements GenericsConverter<Person, PersonDto> {
 				.phoneNumber(persondto.getPhoneNumber())
 				.creationDate(LocalDate.now())
 				.isActive(true)
+				.companyClient(companClientService.getCompanyById(persondto.getCompanyId()))
+				.department(departmentService.getDepartmentById(persondto.getDepartmentId()))
 				.build();
 	}
 

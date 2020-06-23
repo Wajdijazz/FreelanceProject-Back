@@ -1,6 +1,5 @@
 package com.freelance.app.services;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.freelance.app.dto.CompanyClientDto;

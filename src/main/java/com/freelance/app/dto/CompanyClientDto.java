@@ -29,7 +29,7 @@ public class CompanyClientDto {
 
 	private String emailContact;
 
-	private float phoneContact;
+	private double phoneContact;
 
 	private MultipartFile companyLogo;
 

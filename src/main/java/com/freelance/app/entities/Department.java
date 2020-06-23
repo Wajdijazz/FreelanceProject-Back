@@ -2,6 +2,7 @@ package com.freelance.app.entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,46 +13,44 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "Person")
+@Table(name = "Department")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class Person {
+@EqualsAndHashCode
+/**
+ * this class to manage the department of the company
+ * 
+ * @author WAJDI
+ *
+ */
+public class Department {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long personId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "department_id")
+	private Long departmentId;
 
-	private String firstName;
-
-	private String lastName;
-
-	@Column(name = "phone_number")
-	private double phoneNumber;
+	@Column(name = "department_name")
+	private String departmentName;
 
 	@Column(name = "date_creation")
 	private LocalDate creationDate;
 
 	private boolean isActive;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "companyClient_id")
 	private CompanyClient companyClient;
-
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "department_id")
-	private Department department;
 
 }

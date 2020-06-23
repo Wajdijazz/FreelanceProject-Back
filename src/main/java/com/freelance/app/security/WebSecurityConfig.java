@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
- import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,14 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
+	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
-    @Autowired
+	@Autowired
 	private JwtAuthEntryPoint jwtAuthEntryPoint;
 
 	@Bean
@@ -43,13 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable().authorizeRequests()
 		.antMatchers("/user/login").permitAll()
 		.antMatchers("/user/update").permitAll()
-		.antMatchers("/user/details/**").hasAnyAuthority("SUPERADMIN","ADMIN","GESTIONARY")
-		.antMatchers("/user/register").hasAnyAuthority("SUPERADMIN","ADMIN","GESTIONARY")
-		.antMatchers("/person/**").hasAnyAuthority("SUPERADMIN","ADMIN","GESTIONARY")
+		.antMatchers("/user/details/**").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
+		.antMatchers("/user/register").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
+		.antMatchers("/person/**").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
 		.antMatchers("/companyClient/**").hasAuthority("SUPERADMIN")
-		.anyRequest()
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.antMatchers("/department/**").hasAnyAuthority("GESTIONARY")
+		.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
+		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
