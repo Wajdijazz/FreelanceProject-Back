@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/person/**").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
 		.antMatchers("/companyClient/**").hasAuthority("SUPERADMIN")
 		.antMatchers("/department/**").hasAnyAuthority("GESTIONARY")
+		.antMatchers("/provider/**").hasAnyAuthority("GESTIONARY")
 		.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
