@@ -2,6 +2,7 @@ package com.freelance.app.services.implementation;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -63,9 +64,9 @@ public class UserServiceImpl implements IUserService {
 				.password(passwordEncoder.encode(userDto.getPassword()))
 				.person(personService.getPersonById(userDto.getPersonId()))
 				.companyClient(companyClientService.getCompanyById(userDto.getCompanyClientId())).isActive(true)
-				.build();
+				.autorized(userDto.getAutorized()).build();
 		userToSave.setRoles(affectRoleToUser(userDto));
-	//	sendMail("", userDto.getEmail(), userDto.getPassword());
+		// sendMail("", userDto.getEmail(), userDto.getPassword());
 		return userRepository.save(userToSave);
 	}
 
@@ -157,9 +158,17 @@ public class UserServiceImpl implements IUserService {
 				.userFirstName(user.getPerson().getFirstName()).userLastName(user.getPerson().getLastName())
 				.userPhone(user.getPerson().getPhoneNumber())
 				.companyWebSite(user.getCompanyClient().getCompanyWebSite())
-				.companyId(user.getCompanyClient().getCompanyId())
-				.build();
+				.companyId(user.getCompanyClient().getCompanyId()).build();
 	}
-	
+
+	@Override
+	public List<User> getUsersByCompanyClient(Long companyId) {
+		return userRepository.findByCompanyClient_CompanyId(companyId);
+	}
+
+	@Override
+	public void deleteUser(Long userId) {
+		userRepository.deleteById(userId);
+	}
 
 }

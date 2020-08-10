@@ -1,5 +1,6 @@
 package com.freelance.app.services;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -24,8 +25,11 @@ public interface IUserService {
 	void sendMail(String messageToSend, String email, String password) throws MessagingException;
 
 	User updatePasswordUser(UserDto userDto);
-	
+
 	UserDetailDto getUserInfoByEmail(String email);
 
+	List<User> getUsersByCompanyClient(Long companyId);
+
+	void deleteUser(Long userId);
 
 }

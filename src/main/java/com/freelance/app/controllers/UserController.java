@@ -1,5 +1,7 @@
 package com.freelance.app.controllers;
 
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.freelance.app.dto.UserDetailDto;
 import com.freelance.app.dto.UserDto;
 import com.freelance.app.dto.UserLoginDto;
+import com.freelance.app.entities.User;
 import com.freelance.app.security.JwtProvider;
 import com.freelance.app.security.JwtResponse;
 import com.freelance.app.security.ResponseMessage;
@@ -68,6 +72,16 @@ public class UserController {
 	@GetMapping("/details/{email}")
 	public UserDetailDto getUserInfoByEmail(@PathVariable(value = "email") String email) {
 		return userService.getUserInfoByEmail(email);
+	}
+	
+	@GetMapping("/{companyId}")
+	public List<User> getUsersByCompany(@PathVariable(value = "companyId") Long companyId) {
+		return userService.getUsersByCompanyClient(companyId);
+	}
+	
+	@DeleteMapping("/{userId}")
+	public void deleteUser(@PathVariable(value = "userId") Long userId) {
+		userService.deleteUser(userId);
 	}
 	
 }

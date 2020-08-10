@@ -40,6 +40,7 @@ public class DepartmentController {
 		departmentService.updateDepartment(departmentDto);
 		return new ResponseEntity<>(new ResponseMessage("Department updated successfully!"), HttpStatus.OK);
 	}
+
 	@GetMapping("/{companyId}")
 	public List<DepartmentDto> getAllDepartments(@PathVariable(value = "companyId") Long companyId) {
 		return departmentService.getAllDepartments(companyId);

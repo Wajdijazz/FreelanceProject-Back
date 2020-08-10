@@ -43,10 +43,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/user/update").permitAll()
 		.antMatchers("/user/details/**").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
 		.antMatchers("/user/register").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
+		.antMatchers("/user/*").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
 		.antMatchers("/person/**").hasAnyAuthority("SUPERADMIN", "GESTIONARY")
 		.antMatchers("/companyClient/**").hasAuthority("SUPERADMIN")
 		.antMatchers("/department/**").hasAnyAuthority("GESTIONARY")
 		.antMatchers("/provider/**").hasAnyAuthority("GESTIONARY")
+		.antMatchers("/localisation/**").hasAnyAuthority("GESTIONARY")
+		.antMatchers("/item-Family/**").hasAnyAuthority("GESTIONARY")
 		.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

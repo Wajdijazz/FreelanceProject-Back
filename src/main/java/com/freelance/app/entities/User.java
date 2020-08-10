@@ -18,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.freelance.app.util.Autorized;
+
 
 @Entity
 @Data
@@ -45,12 +47,15 @@ public class User {
 
 	private boolean isActive;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private String autorized;
+
+	
+	@ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "person_id")
 	private Person person;
 
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "companyClient_id")
 	private CompanyClient companyClient;
 

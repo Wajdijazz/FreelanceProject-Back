@@ -7,6 +7,10 @@ public class Routes {
 	public static final String PERSON = "/person";
 	public static final String DEPARTMENT = "/department";
 	public static final String Provider = "/provider";
+	public static final String LOCALISATION = "/localisation";
+	public static final String ITEMFAMILY = "/item-Family";
+
+
 
 
 

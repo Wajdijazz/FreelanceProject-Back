@@ -61,4 +61,9 @@ public class PersonServiceImpl implements IPersonService {
 		return personRepository.save(personToUpdate);
 	}
 
+	@Override
+	public List<Person> getPersonListToAffectToUsers(Long companyId) {
+		return personRepository.findPersonsByCompany(companyId);
+	}
+
 }

@@ -2,6 +2,8 @@ package com.freelance.app.dto;
 
 import java.util.Set;
 
+import com.freelance.app.util.Autorized;
+
 import lombok.*;
 
 @Data
@@ -31,6 +33,8 @@ public class UserDto {
 	private Set<String> role;
 
 	private boolean isActive;
+	
+	private String autorized;
 
 	private Long personId;
 

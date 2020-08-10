@@ -12,47 +12,36 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "Person")
+@Table(name = "Item_Family")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class Person {
-
+@EqualsAndHashCode
+public class ItemFamily {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long personId;
-
-	private String firstName;
-
-	private String lastName;
-
-	@Column(name = "phone_number")
-	private double phoneNumber;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "itemFamily_id")
+	private Long itemFamilyId;
+	
+	private String description;
 
 	@Column(name = "date_creation")
 	private LocalDate creationDate;
 
 	private boolean isActive;
-	
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "companyClient_id")
 	private CompanyClient companyClient;
-
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "department_id")
-	private Department department;
 
 }

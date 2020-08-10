@@ -19,7 +19,6 @@ public class UserConvertor implements GenericsConverter<User, UserDto> {
 
 	@Override
 	public UserDto entityToDto(User user) {
-		// TODO Auto-generated method stub
 		return UserDto.builder()
 				.email(user.getEmail())
 				.password(user.getPassword())
@@ -31,12 +30,10 @@ public class UserConvertor implements GenericsConverter<User, UserDto> {
 
 	@Override
 	public User dtoToEntity(UserDto userDto) {
-		// TODO Auto-generated method stub
 		return User.builder()
 				.email(userDto.getEmail())
 				.password(userDto.getPassword())
 				.person(personService.getPersonById(userDto.getPersonId()))
-				.companyClient(companyClientService.getCompanyById(userDto.getCompanyClientId()))
 				.isActive(userDto.isActive())
 				.build();
 				
