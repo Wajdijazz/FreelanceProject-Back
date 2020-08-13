@@ -19,7 +19,7 @@ import com.freelance.app.services.IUserService;
 import com.freelance.app.util.Autorized;
 
 import lombok.AllArgsConstructor;
-
+/**Start class**/
 @AllArgsConstructor
 @Configuration
 public class AppStartConfiguration implements CommandLineRunner {
