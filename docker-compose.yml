@@ -1,0 +1,22 @@
+version: "3"
+services:
+  app-jdbc:
+    image: app-jdbc
+    ports:
+      - "8080:8080"
+    networks:
+      - app-net-mysql
+    depends_on:
+      - appMysql
+ 
+  appMysql:
+    image: mysql:8
+
+    networks:
+      - app-net-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DB: "freelanceDB"  
+
+networks:
+  app-net-mysql: 
