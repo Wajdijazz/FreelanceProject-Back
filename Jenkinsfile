@@ -1,11 +1,25 @@
-node {
-  def mvn = tool (name: 'M3', type: 'maven') + '/bin/mvn'
-  stage('SCM Checkout'){
-	git branch: 'master', 
-	credentialsId: 'github', 
-   	url: 'https://github.com/Wajdijazz/FreelanceProject-Back'
-   }
-  stage('Mvn Package'){   
-	sh "${mvn} clean package deploy"
-   }
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "M3"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/Wajdijazz/FreelanceProject-Back.git'
+
+                // Run Maven on a Unix agent.
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+
+  
+        }
+    }
 }
